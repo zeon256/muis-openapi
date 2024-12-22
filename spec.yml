@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: MUIS Prayer Time API
+  description: API to retrieve prayer times from MUIS (Islamic Religious Council of Singapore)
+  version: 1.0.0
+  contact:
+    name: MUIS
+    url: https://www.muis.gov.sg
+
+servers:
+  - url: https://www.muis.gov.sg/api
+
+paths:
+  /pagecontentapi/GetPrayerTime:
+    get:
+      summary: Get prayer times
+      description: Retrieves prayer times for a specific date based on Unix timestamp
+      operationId: getPrayerTime
+      parameters:
+        - name: v
+          in: query
+          description: Unix timestamp
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 173483775
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PrayerDate:
+                    type: string
+                    description: Prayer date in human-readable format
+                    example: "22 December 2024"
+                  Hijri:
+                    type: string
+                    description: Hijri (Islamic calendar) date
+                    example: "20 Jamadilakhir 1446H"
+                  Subuh:
+                    type: string
+                    description: Time for Subuh prayer
+                    example: "5:39"
+                  Syuruk:
+                    type: string
+                    description: Time for Syuruk (sunrise)
+                    example: "7:03"
+                  Zohor:
+                    type: string
+                    description: Time for Zohor prayer
+                    example: "1:05"
+                  Asar:
+                    type: string
+                    description: Time for Asar prayer
+                    example: "4:29"
+                  Maghrib:
+                    type: string
+                    description: Time for Maghrib prayer
+                    example: "7:06"
+                  Isyak:
+                    type: string
+                    description: Time for Isyak prayer
+                    example: "8:21"
+                required:
+                  - PrayerDate
+                  - Hijri
+                  - Subuh
+                  - Syuruk
+                  - Zohor
+                  - Asar
+                  - Maghrib
+                  - Isyak
+        '400':
+          description: Bad request - Invalid timestamp
+        '500':
+          description: Internal server error
+
+components:
+  schemas: {}
